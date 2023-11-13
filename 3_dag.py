@@ -1,10 +1,12 @@
-from airflow import DAG 
+from airflow import DAG
 from airflow.operators.bash import BashOperator
 from datetime import datetime
 
+# precedencia
+
 dag = DAG(
-    'segunda_dag_paralelismo',
-    description = 'paralelismo',
+    'terceira_dag_precedencia',
+    description = 'precedência',
     schedule_interval = None,
     start_date = datetime(2023, 3, 5),
     catchup = False
@@ -28,5 +30,6 @@ task3 = BashOperator(
     dag = dag
 )
 
-# RODANDO AS TASKS 2 e 3 EM PARALELO
-task1 >> [task2, task3]
+# RODANDO AS TASKS COM PRECEDÊNCIA
+# TASKS 1 e 2, DPS A TASKS 3
+[task1, task2] >> task3
